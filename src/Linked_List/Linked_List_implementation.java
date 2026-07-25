@@ -46,6 +46,38 @@ public class Linked_List_implementation {
         }
         System.out.println("Null");
     }
+
+    public void delete_first_node(){
+        if(head == null){
+            System.out.println("Your Linked List is Empty...");
+            return;
+        }
+
+        head = head.next;
+    }
+
+    public void delete_last_node(){
+        // Case 1: Empty list
+        if(head == null){
+            System.out.println("Linked-list is empty sry....");
+            return;
+        }
+        // Case 2: Only one node
+        if(head.next == null){
+            head = null;
+            return;
+        }
+        // Move to the second-last node
+        Node temp = head;
+        while (temp.next.next != null){
+            temp = temp.next;
+        }
+        // Delete the last node
+        temp.next = null;
+    }
+
+
+
 }
 
 
@@ -694,4 +726,208 @@ That's why the correct condition is:
 while (temp != null)
 
 It ensures every node is visited, including the last one.
+ */
+
+
+
+// delete first Node................
+/*
+Code
+public void deleteFirst() {
+
+    if (head == null) {
+        System.out.println("Linked List is empty.");
+        return;
+    }
+
+    head = head.next;
+}
+Step 1: Check if the list is empty
+if (head == null) {
+    System.out.println("Linked List is empty.");
+    return;
+}
+
+Suppose the list is empty.
+
+head
+ |
+ V
+null
+
+There is nothing to delete.
+
+So we print a message and return.
+
+Step 2: Move head
+head = head.next;
+
+This is the only line needed to delete the first node.
+
+Let's understand why.
+
+Example
+
+Current list:
+
+head
+ |
+ V
+10 -> 20 -> 30 -> null
+Memory representation
+head
+ |
+ V
++---------+      +---------+      +---------+
+| data=10 | ---> | data=20 | ---> | data=30 |
+| next ---|      | next ---|      | next=null
++---------+      +---------+      +---------+
+
+Currently,
+
+head
+  |
+  +----> Node(10)
+Execute
+head = head.next;
+
+First Java evaluates the right side:
+
+head.next
+
+Since head points to 10,
+
+head.next
+
+means
+
+10.next
+
+which points to the node containing 20.
+
+So Java does:
+
+head = Node(20);
+
+Now the picture becomes:
+
+head
+ |
+ V
+20 -> 30 -> null
+
+The node containing 10 is no longer referenced by head.
+
+What happened to node 10?
+10 -> 20 -> 30
+
+No variable points to 10 anymore.
+
+10 -> 20 -> 30
+^
+No reference
+
+Since nothing references it, Java's Garbage Collector will eventually remove it from memory automatically.
+
+You do not call free() or delete like in C/C++.
+
+Example with one node
+
+Before:
+
+head
+ |
+ V
+10 -> null
+
+Execute
+
+head = head.next;
+
+head.next is null.
+
+So
+
+head = null;
+
+Now
+
+head
+ |
+ V
+null
+
+The list becomes empty.
+
+Example with two nodes
+
+Before:
+
+head
+ |
+ V
+10 -> 20 -> null
+
+Execute
+
+head = head.next;
+
+After
+
+head
+ |
+ V
+20 -> null
+Why don't we use temp?
+
+We don't need to traverse.
+
+The first node is already known:
+
+head
+ |
+ V
+First Node
+
+So deleting it only requires changing one reference.
+
+Time Complexity
+
+Only one assignment happens:
+
+head = head.next;
+
+No loop.
+
+Therefore:
+
+Time Complexity = O(1)
+
+Constant time.
+
+Complete Method
+public void deleteFirst() {
+
+    if (head == null) {
+        System.out.println("Linked List is empty.");
+        return;
+    }
+
+    head = head.next;
+}
+Visual Summary
+Before
+head
+ |
+ V
+10 -> 20 -> 30 -> null
+Execute
+head = head.next;
+After
+head
+ |
+ V
+20 -> 30 -> null
+
+The node 10 is no longer reachable, so Java's garbage collector will reclaim it later. This is why deleting the first node is one of the fastest linked list operations.
  */

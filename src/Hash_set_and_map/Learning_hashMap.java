@@ -20,6 +20,8 @@ public class Learning_hashMap {
              map.put(n, map.getOrDefault(n,0)+1);
          }
 
+      //  System.out.println(map);
+
          // entryset
         for (Map.Entry<Integer,Integer> entry : map.entrySet()){
             System.out.println(entry.getKey()+" --> "+entry.getValue());
