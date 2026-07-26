@@ -17,7 +17,11 @@ public class Main {
 
         link_list.delete_last_node();
         link_list.display();
+
+        link_list.reverse_linked_list();
+        link_list.display();
     }
+
 }
 
 

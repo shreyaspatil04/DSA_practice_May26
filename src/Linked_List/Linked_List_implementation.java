@@ -76,6 +76,40 @@ public class Linked_List_implementation {
         temp.next = null;
     }
 
+    public boolean search(int n){
+
+//        if(head == null){
+//            return false;
+//        }
+          // no need of this....becoz if temp == null then also it is going to throw false..
+
+        Node temp = head;
+        while (temp != null){
+            if(temp.data == n){
+                return true;
+            }
+            temp = temp.next;
+        }
+        return false;
+    }
+
+   // do this again  watch shraddha video
+    public void reverse_linked_list(){
+        Node prev = null;
+        Node curr = head;
+        Node next = null;
+
+        while (curr != null){
+            next = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = next;
+        }
+        head = prev;
+    }
+
+
+
 
 
 }
@@ -930,4 +964,525 @@ head
 20 -> 30 -> null
 
 The node 10 is no longer reachable, so Java's garbage collector will reclaim it later. This is why deleting the first node is one of the fastest linked list operations.
+ */
+
+
+
+
+
+
+
+// delete Last Node
+
+/*
+Deleting the last node is a little more involved because, unlike the first node, you have to find the second-last node first.
+
+Code
+public void deleteLast() {
+
+    // Case 1: Empty list
+    if (head == null) {
+        System.out.println("Linked List is empty.");
+        return;
+    }
+
+    // Case 2: Only one node
+    if (head.next == null) {
+        head = null;
+        return;
+    }
+
+    Node temp = head;
+
+    // Move to the second-last node
+    while (temp.next.next != null) {
+        temp = temp.next;
+    }
+
+    // Delete the last node
+    temp.next = null;
+}
+Example
+
+Suppose the list is:
+
+head
+ |
+ V
+10 -> 20 -> 30 -> 40 -> null
+
+Our goal is to remove 40.
+
+Step 1: Check if the list is empty
+if (head == null) {
+    System.out.println("Linked List is empty.");
+    return;
+}
+
+If:
+
+head
+ |
+ V
+null
+
+there is nothing to delete.
+
+Step 2: Check if only one node exists
+if (head.next == null) {
+    head = null;
+    return;
+}
+
+Suppose the list is:
+
+head
+ |
+ V
+10 -> null
+
+head.next is null, which means there is only one node.
+
+So:
+
+head = null;
+
+Now:
+
+head
+ |
+ V
+null
+
+The list becomes empty.
+
+Step 3: Create a temporary pointer
+Node temp = head;
+
+Initially:
+
+head
+ |
+ V
+10 -> 20 -> 30 -> 40 -> null
+ ^
+ |
+temp
+Step 4: Traverse to the second-last node
+
+Notice the loop:
+
+while (temp.next.next != null) {
+    temp = temp.next;
+}
+
+Many beginners wonder why it is temp.next.next instead of temp.next.
+
+The answer is that we want to stop one node before the last.
+
+First iteration
+
+temp is at 10.
+
+10 -> 20 -> 30 -> 40 -> null
+ ^
+ |
+temp
+
+Check:
+
+temp.next.next != null
+temp.next → 20
+temp.next.next → 30
+
+30 is not null, so move:
+
+temp = temp.next;
+
+Now:
+
+10 -> 20 -> 30 -> 40 -> null
+       ^
+       |
+      temp
+Second iteration
+
+Now temp is 20.
+
+Check:
+
+temp.next → 30
+temp.next.next → 40
+
+40 is not null, so move again.
+
+10 -> 20 -> 30 -> 40 -> null
+             ^
+             |
+            temp
+Third iteration
+
+Now temp is 30.
+
+Check:
+
+temp.next → 40
+temp.next.next → null
+
+So the condition becomes:
+
+null != null
+
+which is false.
+
+The loop stops.
+
+Now temp is exactly at the second-last node.
+
+Step 5: Remove the last node
+temp.next = null;
+
+Before:
+
+30 -> 40 -> null
+
+After:
+
+30 -> null
+
+Complete list:
+
+head
+ |
+ V
+10 -> 20 -> 30 -> null
+
+The node 40 is no longer referenced and Java's garbage collector will eventually reclaim it.
+
+Why not use while (temp.next != null)?
+
+Suppose you did:
+
+while (temp.next != null) {
+    temp = temp.next;
+}
+
+The loop would stop with temp pointing to the last node:
+
+10 -> 20 -> 30 -> 40 -> null
+                  ^
+                  |
+                 temp
+
+Now if you write:
+
+temp.next = null;
+
+nothing changes, because temp.next is already null.
+
+You cannot delete the last node this way because you no longer have a reference to the second-last node, which is the one whose next needs to change.
+
+Summary
+
+Before:
+
+head
+ |
+ V
+10 -> 20 -> 30 -> 40 -> null
+
+After deleteLast():
+
+head
+ |
+ V
+10 -> 20 -> 30 -> null
+Key points
+If the list is empty → do nothing.
+If there is only one node → set head = null.
+Otherwise:
+
+Traverse until temp reaches the second-last node using:
+
+while (temp.next.next != null)
+
+Disconnect the last node:
+
+temp.next = null;
+Time Complexity
+Traversal takes O(n) in the worst case.
+Changing temp.next takes O(1).
+
+Overall time complexity: O(n).
+ */
+
+
+
+
+
+
+
+
+// search an element
+
+/*
+Searching in a linked list means visiting each node one by one until:
+
+You find the required value, or
+You reach the end of the list (null).
+
+Since a linked list has no indexing like an array, you cannot directly access the 5th or 10th element.
+
+Code
+public boolean search(int key) {
+
+    Node temp = head;
+
+    while (temp != null) {
+
+        if (temp.data == key) {
+            return true;
+        }
+
+        temp = temp.next;
+    }
+
+    return false;
+}
+Example
+
+Suppose the list is:
+
+head
+ |
+ V
+10 -> 20 -> 30 -> 40 -> null
+
+Search for:
+
+30
+Step 1: Create a temporary pointer
+Node temp = head;
+
+Memory:
+
+head
+ |
+ V
+10 -> 20 -> 30 -> 40 -> null
+ ^
+ |
+temp
+
+We use temp so that head remains unchanged.
+
+Step 2: Check the first node
+while(temp != null)
+
+Currently,
+
+temp = 10
+
+Compare:
+
+if(temp.data == key)
+
+becomes
+
+if(10 == 30)
+
+False.
+
+Move forward.
+
+temp = temp.next;
+
+Now:
+
+10 -> 20 -> 30 -> 40 -> null
+       ^
+       |
+      temp
+Step 3: Check the second node
+
+Compare
+
+20 == 30
+
+False.
+
+Move:
+
+temp = temp.next;
+
+Now:
+
+10 -> 20 -> 30 -> 40 -> null
+             ^
+             |
+            temp
+Step 4: Check the third node
+
+Compare
+
+30 == 30
+
+True.
+
+Execute
+
+return true;
+
+The method stops immediately.
+
+Searching for an element that doesn't exist
+
+Suppose we search for:
+
+50
+
+List:
+
+10 -> 20 -> 30 -> 40 -> null
+
+The comparisons are:
+
+10 == 50 ❌
+20 == 50 ❌
+30 == 50 ❌
+40 == 50 ❌
+
+Then
+
+temp = temp.next;
+
+after 40 becomes
+
+temp = null
+
+The loop ends.
+
+Finally,
+
+return false;
+Visual Dry Run
+
+Search for 40
+
+Initially
+head
+ |
+ V
+10 -> 20 -> 30 -> 40 -> null
+ ^
+ |
+temp
+
+↓
+
+10 != 40
+
+Move
+
+↓
+
+10 -> 20 -> 30 -> 40 -> null
+       ^
+       |
+      temp
+
+↓
+
+20 != 40
+
+Move
+
+↓
+
+10 -> 20 -> 30 -> 40 -> null
+             ^
+             |
+            temp
+
+↓
+
+30 != 40
+
+Move
+
+↓
+
+10 -> 20 -> 30 -> 40 -> null
+                   ^
+                   |
+                  temp
+
+↓
+
+40 == 40
+
+Return
+
+true
+Returning the position instead of true/false
+
+Sometimes you want to know where the element is.
+
+public int search(int key) {
+
+    Node temp = head;
+    int position = 1;
+
+    while (temp != null) {
+
+        if (temp.data == key) {
+            return position;
+        }
+
+        temp = temp.next;
+        position++;
+    }
+
+    return -1;
+}
+
+Example:
+
+List:
+
+10 -> 20 -> 30 -> 40
+
+Calling
+
+search(30);
+
+returns
+
+3
+
+Calling
+
+search(100);
+
+returns
+
+-1
+
+which means the element was not found.
+
+Time Complexity
+
+In the worst case, you may have to check every node.
+
+Example:
+
+10 -> 20 -> 30 -> 40 -> 50
+
+Searching for 50 (or a value not in the list) visits all nodes.
+
+So:
+
+Best case: O(1) (the first node matches)
+Worst case: O(n) (the last node matches or the element isn't present)
+Space complexity: O(1) (only one extra pointer, temp)
  */
